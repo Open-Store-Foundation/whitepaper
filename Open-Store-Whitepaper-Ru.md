@@ -15,6 +15,7 @@ header-includes: |
   \usepackage{setspace}
   \usepackage{titlesec}
   \usepackage{seqsplit}
+  \usepackage{tocloft}
   \onehalfspacing 
   \titlespacing*{\section}{0pt}{3.5ex plus 1ex minus .2ex}{2.3ex plus .2ex}
   \titlespacing*{\subsection}{0pt}{3.25ex plus 1ex minus .2ex}{1.5ex plus .2ex}
@@ -22,6 +23,9 @@ header-includes: |
   \newcommand{\wraptxt}[1]{\seqsplit{#1}}
   \let\oldmaketitle\maketitle
   \renewcommand{\maketitle}{\oldmaketitle\newpage}
+  \renewcommand{\cftsecfont}{\normalfont}
+  \renewcommand{\cftsubsecfont}{\normalfont}
+  \renewcommand{\cfttoctitlefont}{\normalfont\huge\mdseries}
 ---
 
 ```{=latex}
@@ -93,9 +97,9 @@ header-includes: |
 
 Протокол гарантирует, что разработчики сохраняют контроль над своими приложениями, а пользователи — над доступом к ним.
 
-</br>
-</br>
-</br>
+```{=latex}
+\newpage
+```
 
 ## **2. Principles**
 
@@ -190,13 +194,13 @@ header-includes: |
 
 Этот механизм позволяет защитить пользователей от наиболее вредоносного контента, не нарушая при этом базовый принцип открытости.
 
-</br>
-</br>
-</br>
+```{=latex}
+\newpage
+```
 
-# **2. Overview**
+# **3. Overview**
 
-## **2.1. Glossary:**
+## **3.1. Glossary:**
 
 Ссылки на разделы Glossary:
 
@@ -226,7 +230,7 @@ header-includes: |
 
 </br>
 
-### **Actor:**
+### **3.1.1. Actor**
 
 - **Publisher**
     
@@ -254,7 +258,7 @@ header-includes: |
     
 </br>
 
-### **Node:**
+### **3.1.2. Node**
 
 - Validator
 - Oracle
@@ -265,7 +269,7 @@ header-includes: |
 
 </br>
 
-### **Entity:**
+### **3.1.3. Entity**
 
 - **Asset**
     
@@ -287,7 +291,7 @@ header-includes: |
     
     (см. [**Android Assetlinks**](https://www.google.com/url?sa=E&q=https%3A%2F%2Fdeveloper.android.com%2Ftraining%2Fapp-links%2Fverify-android-applinks)).
     
-- **Greenfield**
+- **3.1.4. Greenfield**
     
     Блокчейн для хранения файлов от компании Binance.
     
@@ -323,7 +327,7 @@ header-includes: |
     
 </br>
 
-### **UI:**
+### **3.1.5. UI**
 
 - **Open Store Studio**
     
@@ -336,7 +340,7 @@ header-includes: |
 
 </br>   
 
-### **Contract:**
+### **3.1.6. Contract**
 
 - **OpenStore**
     
@@ -386,7 +390,7 @@ header-includes: |
         
 </br>
 
-### **Smart Contract Structures:**
+### **3.1.7. Smart Contract Structures**
 
 - BuildInfo - представление [e]Asset Atifact
     - versionCode - int64
@@ -417,7 +421,7 @@ header-includes: |
 
 </br>
 
-### **Process:**
+### **3.1.8. Process**
 
 - **Ownership Verification**
     
@@ -445,7 +449,7 @@ header-includes: |
 
 </br>   
 
-### **Fees:**
+### **3.1.9. Fees**
 
 - **Network Fee**
     
@@ -495,14 +499,14 @@ $$ \text{Vote Stake} \times (\text{MAX\_CONCURRENT\_VOTINGS} - 2) + \text{Propos
 </br>
 </br>
 
-## **2.2. Workflow**
+## **3.2. Workflow**
 
 ### **TL;DR**
 
 Ниже представлена упрощенная модель взаимодействия основных акторов с протоколом. В реальности некоторые пункты могут быть выполнены в рамках одной атомарной операции.
 
 1. Publisher создает и настраивает contract Publisher Account.
-2. Publisher создает новый contract Asset (Application).
+3. Publisher создает новый contract Asset (Application).
 3. Publisher указывает данные владения (Ownership Info) для нового Asset (домен сайта, хеши сертификатов, а также доказательства владения данными сертификатами).
 4. Publisher отправляет Ownership Info на верификацию (Ownership Verification).
 5. Oracle выполняет Ownership Verification.
@@ -519,7 +523,7 @@ $$ \text{Vote Stake} \times (\text{MAX\_CONCURRENT\_VOTINGS} - 2) + \text{Propos
 </br>
 </br>
 
-### **2.2.1. Создание contract DevAccount**
+### **3.2.1. Создание contract DevAccount**
 
 1. [a]Publisher создает в [u]Open Store Studio новый [c]DevAccount через [c]DevFactory, указывая:
     1. Name (immutable) - unique username
@@ -532,7 +536,7 @@ $$ \text{Vote Stake} \times (\text{MAX\_CONCURRENT\_VOTINGS} - 2) + \text{Propos
 
 </br>
 
-### **2.2.2. Управление [c]DevAccount**
+### **3.2.2. Управление DevAccount**
 
 [a]Publisher, используя [u]Open Store Studio, может менять такие параметры, как:
 
@@ -542,7 +546,7 @@ $$ \text{Vote Stake} \times (\text{MAX\_CONCURRENT\_VOTINGS} - 2) + \text{Propos
 
 </br>
 
-### **2.2.3. Создание [c]App**
+### **3.2.3. Создание App**
 
 1. [a]Publisher создает новый [c]App через [c]DevAccountAppsPluginV1 в [u]Open Store Studio, указывая:
     1. PackageName (immutable) - text unique identificator
@@ -555,7 +559,7 @@ $$ \text{Vote Stake} \times (\text{MAX\_CONCURRENT\_VOTINGS} - 2) + \text{Propos
 
 </br>
 
-### **2.2.4. [p]Ownership Verification для Android [c]App**
+### **3.2.4. Ownership Verification для Android App**
 
 1. [a]Publisher, используя [u]Open Store Studio, заполняет форму владения ([s]OwnershipInfo):
     1. [e]Asset Endpoint (mutable)
@@ -573,7 +577,7 @@ $$ \text{Vote Stake} \times (\text{MAX\_CONCURRENT\_VOTINGS} - 2) + \text{Propos
 
 </br>
 
-### **2.2.5. Роль [a]Oracle**
+### **3.2.5. Роль Oracle**
 
 1. В данный момент [a]Oracle централизован и находится во владении [a]Owner.
 2. [a]Oracle необходим, чтобы [a]Validator в процессе [p]Artifact Validation мог получить все необходимые данные напрямую из [n]Blockchain. В ином случае открывается огромное количество возможностей для манипуляций с данными, что, в свою очередь, ведет к проблемам безопасности всего протокола.
@@ -582,7 +586,7 @@ $$ \text{Vote Stake} \times (\text{MAX\_CONCURRENT\_VOTINGS} - 2) + \text{Propos
 
 </br>
 
-### **2.2.6. Обработка запроса [p]Ownership Verification для Android [c]App**
+### **3.2.6. Обработка запроса Ownership Verification для Android App**
 
 1. [a]Oracle получает запрос в виде события [n]Blockchain.
 2. [a]Oracle пытается получить JSON, используя Asset Endpoint **$ENDPOINT/.well-known/assetlinks.json** (см. [**https://developer.android.com/training/app-links/verify-android-applinks**](https://www.google.com/url?sa=E&q=https%3A%2F%2Fdeveloper.android.com%2Ftraining%2Fapp-links%2Fverify-android-applinks)).
@@ -596,7 +600,7 @@ $$ \text{Vote Stake} \times (\text{MAX\_CONCURRENT\_VOTINGS} - 2) + \text{Propos
 
 </br>
 
-### **2.2.7. [p]Artifact Validation для [e]Asset Artifact в [c]OpenStore**
+### **3.2.7. Artifact Validation для Asset Artifact в OpenStore**
 
 1. [a]Publisher, используя [u]Open Store Studio, указывает:
     1. [e]Asset Artifact для валидации.
@@ -610,7 +614,7 @@ $$ \text{Vote Stake} \times (\text{MAX\_CONCURRENT\_VOTINGS} - 2) + \text{Propos
 
 </br>
 
-### **2.2.8. Регистрация [a]Validator**
+### **3.2.8. Регистрация Validator**
 
 1. [a]Validator запускает [n]Validator, указав необходимые параметры для работы.
 2. [a]Validator пополняет баланс в [c]OpenStore.
@@ -634,7 +638,7 @@ $$ \text{Vote Stake} \times (\text{MAX\_CONCURRENT\_VOTINGS} - 2) + \text{Propos
 
 </br>
 
-### **2.2.9. Обработка [p]Artifact Validation для Android [e]Asset Artifact**
+### **3.2.9. Обработка Artifact Validation для Android Asset Artifact**
 
 1. [a]Validator получает событие (event) из [n]Blockchain.
 2. Используя данные из события, [a]Validator скачивает APK ([e]Asset Artifact).
@@ -649,7 +653,7 @@ $$ \text{Vote Stake} \times (\text{MAX\_CONCURRENT\_VOTINGS} - 2) + \text{Propos
 
 </br>
 
-### **2.2.10. Формирование и выдвижение блока на голосование [a]Validator**
+### **3.2.10. Формирование и выдвижение блока на голосование Validator**
 
 1. Выдвижение блоков на голосование происходит инкрементально.
     1. **EXAMPLE!** Нельзя выдвинуть на голосование блок №5, если блок №4 еще не был выдвинут.
@@ -661,7 +665,7 @@ $$ \text{Vote Stake} \times (\text{MAX\_CONCURRENT\_VOTINGS} - 2) + \text{Propos
 
 </br>
 
-### **2.2.11. Голосование за блок [a]Validator**
+### **3.2.11. Голосование за блок Validator**
 
 1. [a]Validator должен сформировать собственный [e]Validation Block для всех запросов, используемых в исходном [e]Validation Block.
     1. Если сформированный блок отличается от исходного, [a]Validator может начать [p]Block Discussing и предложить свою версию блока.
@@ -678,7 +682,7 @@ $$ \text{Vote Stake} \times (\text{MAX\_CONCURRENT\_VOTINGS} - 2) + \text{Propos
 
 </br>
 
-### **2.2.12. Финализация блока [a]Validator**
+### **3.2.12. Финализация блока Validator**
 
 1. Финализация, как и выдвижение блока, происходит инкрементально.
     1. **EXAMPLE!** Нельзя финализировать блок №5, если блок №4 еще не был финализирован.
@@ -691,7 +695,7 @@ $$ \text{Vote Stake} \times (\text{MAX\_CONCURRENT\_VOTINGS} - 2) + \text{Propos
 
 </br>
 
-### **2.2.13. Терминальные состояния [e]Validation Request**
+### **3.2.13. Терминальные состояния Validation Request**
 
 1. В рамках протокола блок хранится в виде 2 сущностей:
     1. [e]Validation Block - полная версия, в виде Protobuf-объекта.
@@ -708,7 +712,7 @@ $$ \text{Vote Stake} \times (\text{MAX\_CONCURRENT\_VOTINGS} - 2) + \text{Propos
 
 </br>
 
-### **2.2.14. Обработка UNAVAILABLE состояния**
+### **3.2.14. Обработка UNAVAILABLE состояния**
 
 UNAVAILABLE статус необходим, чтобы протокол продолжал работать, в случае если один или несколько [n]Blockchain вышли из строя во время валидации.
 
@@ -744,7 +748,7 @@ UNAVAILABLE статус необходим, чтобы протокол про�
 
 </br>
 
-### **2.2.15. Публикация [e]Asset Artifact в [c]OpenStore**
+### **3.2.15. Публикация Asset Artifact в OpenStore**
 
 Существует 3 способа публикации [s]BuildInfo в [c]OpenStore:
 
@@ -756,7 +760,7 @@ UNAVAILABLE статус необходим, чтобы протокол про�
 
 </br>
 
-### **2.2.16. Настройка дистрибуции [e]Asset**
+### **3.2.16. Настройка дистрибуции Asset**
 
 1. В обычной ситуации раздача [e]Asset Artifact происходит непосредственно из [e]Greenfield.
 2. При необходимости [a]Publisher может указать одну или более [e]Distribution Link, используя свои серверы.
@@ -767,7 +771,7 @@ UNAVAILABLE статус необходим, чтобы протокол про�
 
 </br>
 
-### **2.2.17. Доступность [e]Asset**
+### **3.2.17. Доступность Asset**
 
 1. В большинстве случаев [a]User получает данные из [n]API, которые синхронизируются посредством [n]Daemon из BSC, opBSC, Greenfield или иного блокчейна.
 2. Доступность [e]Asset для пользователей через [n]API может быть ограничена, если:
@@ -779,7 +783,7 @@ UNAVAILABLE статус необходим, чтобы протокол про�
 
 </br>
 
-### **2.2.18. Установка [e]Asset Artifact через [u]Open Store App**
+### **3.2.18. Установка Asset Artifact через Open Store App**
 
 1. В [u]Open Store App существует 3 способа найти приложение:
     1. **Каталог** ([n]API) - [e]Asset, прошедшие [p]Ownership Verification и [p]Artifact Validation.
@@ -797,7 +801,7 @@ UNAVAILABLE статус необходим, чтобы протокол про�
 
 </br>
 
-### **2.2.19. Обновление [e]Asset через [u]Open Store App**
+### **3.2.19. Обновление Asset через Open Store App**
 
 1. Новые версии [e]Asset Artifact устанавливаются в ручном режиме; при необходимости пользователь может разрешить автоматическое обновление.
 2. [c]OpenStore может содержать несколько приложений с одинаковым identifier (packageName), и в таком случае в роли distinct identifier будет выступать адрес [c]App.
