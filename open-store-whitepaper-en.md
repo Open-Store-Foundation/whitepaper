@@ -568,20 +568,20 @@ Below is a simplified model of the interaction between the main actors and the p
 </br>
 </br>
 
-### **3.2.1. Creating a DevAccount Contract**
+### **3.2.1. Creating a PublisherAccount Contract**
 
-1. The [a]Publisher creates a new [c]DevAccount in [u]Open Store Studio via [c]DevFactory, specifying:
+1. The [a]Publisher creates a new [c]PublisherAccount in [u]Open Store Studio via [c]DevFactory, specifying:
     1. Name (immutable) - a unique username
     2. File Storage (mutable) - storage for [e]Asset Artifacts
         1. Currently, the only available file storage is [e]Greenfield.
-2. Upon creation, two plugins are connected to the [c]DevAccount: [c]DevGreenfieldPluginV1 and [c]DevAccountAppsPluginV1.
-3. As part of connecting [c]DevGreenfieldPluginV1:
+2. Upon creation, two plugins are connected to the [c]PublisherAccount: [c]PublisherGreenfieldPluginV1 and [c]PublisherAccountAppsPluginV1.
+3. As part of connecting [c]PublisherGreenfieldPluginV1:
     1. A minimum amount of BNB is sent to [e]Greenfield to top up the balance and pay for storage, using [e]Cross Chain.
     2. A [e]Bucket is created in [e]Greenfield, using [e]Cross Chain.
 
 </br>
 
-### **3.2.2. Managing DevAccount**
+### **3.2.2. Managing PublisherAccount**
 
 The [a]Publisher, using [u]Open Store Studio, can change parameters such as:
 
@@ -593,14 +593,14 @@ The [a]Publisher, using [u]Open Store Studio, can change parameters such as:
 
 ### **3.2.3. Creating an App**
 
-1. The [a]Publisher creates a new [c]App via [c]DevAccountAppsPluginV1 in [u]Open Store Studio, specifying:
+1. The [a]Publisher creates a new [c]AppAsset via [c]PublisherAccountAppsPluginV1 in [u]Open Store Studio, specifying:
     1. PackageName (immutable) - a unique text identifier
     2. Name (mutable)
     3. Description (mutable)
     4. ProtocolId (mutable) - app metadata storage
     5. PlatformId (immutable) - type of OS platform (e.g., Android, iOS, etc.)
     6. CategoryId (mutable) - type of [e]Asset category (Books, Tools, Sport, etc.)
-2. Upon creation, the [c]App connects to three base plugins: [c]AppOwnerPluginV1, [c]AppBuildsPluginV1, and [c]AppDistributionPluginV1.
+2. Upon creation, the [c]AppAsset connects to three base plugins: [c]AppOwnerPluginV1, [c]AppBuildsPluginV1, and [c]AppDistributionPluginV1.
 
 </br>
 
@@ -614,11 +614,11 @@ The [a]Publisher, using [u]Open Store Studio, can change parameters such as:
 2. The [a]Publisher saves the [s]OwnershipInfo in [c]AppOwnerPluginV1.
 3. The [a]Publisher sends a [p]Ownership Verification request to [c]AssetlinksOracle.
     1. [p]Ownership Verification requires payment of the [f]Oracle Fee.
-    2. On success, the [a]Publisher will be able to send [e]Asset Artifacts of the verified [c]App for [p]Artifact Validation in [c]OpenStore.
+    2. On success, the [a]Publisher will be able to send [e]Asset Artifacts of the verified [c]AppAsset for [p]Artifact Validation in [c]OpenStore.
     3. On failure, the [a]Publisher loses the ability to send new [e]Asset Artifacts for [p]Artifact Validation (if the last version of [s]OwnershipInfo had been verified); all previously published [e]Asset Artifacts will remain available.
 4. When the [s]OwnershipInfo in [c]AppOwnerPluginV1 is changed, the [e]Ownership Version is incremented, after which [p]Ownership Verification must be passed again.
     1. The number of times the same [e]Ownership Version can be sent for [p]Ownership Verification is unlimited.
-5. Ideally, a [c]App undergoes [p]Ownership Verification only once; the result of this check is reused in subsequent checks.
+5. Ideally, a [c]AppAsset undergoes [p]Ownership Verification only once; the result of this check is reused in subsequent checks.
 
 </br>
 
@@ -636,7 +636,7 @@ The [a]Publisher, using [u]Open Store Studio, can change parameters such as:
 1. The [a]Oracle receives the request as a [n]Blockchain event.
 2. The [a]Oracle attempts to fetch a JSON file using the Asset Endpoint **$ENDPOINT/.well-known/assetlinks.json** (see [**https://developer.android.com/training/app-links/verify-android-applinks**](https://www.google.com/url?sa=E&q=https%3A%2F%2Fdeveloper.android.com%2Ftraining%2Fapp-links%2Fverify-android-applinks)).
     1. If the [e]Asset Endpoint is unavailable, [p]Ownership Verification fails with an **error**.
-3. In the fetched JSON, the [a]Oracle tries to find an [e]Assetlink corresponding to the [c]App (e.g., for Android, "namespace": "android_app" and "package_name": "org.openstore.example.android").
+3. In the fetched JSON, the [a]Oracle tries to find an [e]Assetlink corresponding to the [c]AppAsset (e.g., for Android, "namespace": "android_app" and "package_name": "org.openstore.example.android").
     1. If the [e]Assetlink is not found, [p]Ownership Verification fails with an **error**.
 4. The [a]Oracle checks all ‘sha256_cert_fingerprints’ from the found [e]Assetlink against those specified in [c]AppOwnerPluginV1.
     1. If any ‘sha256_cert_fingerprints’ is missing from [c]AppOwnerPluginV1, [p]Ownership Verification fails with an **error**.
@@ -691,7 +691,7 @@ The [a]Publisher, using [u]Open Store Studio, can change parameters such as:
 3. The [a]Validator parses the APK's metadata (see [**APK Signing V2**](https://www.google.com/url?sa=E&q=https%3A%2F%2Fsource.android.com%2Fdocs%2Fsecurity%2Ffeatures%2Fapksigning%2Fv2)).
 4. The [a]Validator checks the APK's metadata:
     1. The APK must have a valid structure and signature.
-    2. The VersionCode, PackageName, and APK Checksum must match those specified in the [e]Asset Artifact and the [c]App.
+    2. The VersionCode, PackageName, and APK Checksum must match those specified in the [e]Asset Artifact and the [c]AppAsset.
     3. All SHA256 Certificate Fingerprints must be listed in [c]AppOwnerPluginV1.
     4. All [e]ProofOfCertificateOwnership must be valid; the signature is verified by manually reconstructing the signed data and using the public key from the certificate in the APK.
 5. The [a]Validator saves the verification result until [p]Block Proposal or [p]Block Voting.
@@ -850,7 +850,7 @@ There are 3 ways to publish a [s]BuildInfo in [c]OpenStore:
 ### **3.2.19. Updating an Asset via the Open Store App**
 
 1. New versions of an [e]Asset Artifact are installed manually; the user can allow automatic updates if desired.
-2. [c]OpenStore may contain multiple applications with the same identifier (packageName), in which case the [c]App address will serve as the distinct identifier.
+2. [c]OpenStore may contain multiple applications with the same identifier (packageName), in which case the [c]AppAsset address will serve as the distinct identifier.
 
 ```{=latex}
 \newpage
@@ -901,8 +901,8 @@ If the primary function of an application or file is one of the items listed bel
 ### **Publisher components:**
 
 - Asset Contracts
-    - DevAccount
-    - App
+    - PublsiherAccount
+    - AppAsset
 - Store Contracts
     - Oracle
     - OpenStore
