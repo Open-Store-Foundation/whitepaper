@@ -385,7 +385,7 @@ Data mutability:
     
     The main contract that implements the consensus system, stores published [e]Asset versions, their validation statuses, and validator data.
     
-- **AssetlinkOracleV1**
+- **AssetlinksOracle**
     
     The main contract for storing requests and results of [p]Ownership Verification.
     
@@ -393,37 +393,37 @@ Data mutability:
     
     Contracts designed to extend the base functionality of other contracts.
     
-- **DevFactory**
+- **PublisherAccountFactory**
     
-    A factory contract for creating a DevAccount.
+    A factory contract for creating a PublisherAccount.
     
-- **DevAccount** — a representation of a [a]Publisher in the system.
-    - **DevAccount**
+- **PublisherAccount** — a representation of a [a]PublisherAccount in the system.
+    - **PublisherAccount**
         
         Stores the publisher's username and connected plugins.
         
-    - **AppsPluginV1**
+    - **PublisherAccountAppsPluginV1**
         
         Stores applications belonging to the publisher.
         
-    - **GreenfieldPluginV1**
+    - **PublisherGreenfieldPluginV1**
         
         A contract for [e]Cross-Chain interaction with a [e]Bucket in [e]Greenfield storage.
         
-- **App** — a representation of an [e]Asset of type "Application".
-    - **App**
+- **AppAsset** — a representation of an [e]Asset of type "Application".
+    - **AppAsset**
         
         Stores general information about the application.
         
-    - **BuildsPluginV1**
+    - **AppBuildsPluginV1**
         
         Stores application versions and links to on-chain files.
         
-    - **OwnershipPluginV1**
+    - **AppOwnerPluginV1**
         
         Stores information about application ownership and proofs of that ownership.
         
-    - **DistributionPluginV1**
+    - **AppDistributionPluginV1**
         
         Stores Web2/Web3 links for file distribution (downloading).
         
@@ -431,14 +431,14 @@ Data mutability:
 
 ### **3.1.7. Smart Contract Structures**
 
-- BuildInfo - representation of an [e]Asset Artifact
+- AppBuild - representation of an [e]Asset Artifact
     - versionCode - int64
     - versionName - string
     - referenceId - bytes
     - protocolId - uint16
     - checksum - bytes
-- OwnershipInfo - ownership data for an [e]Asset
-    - endpoint - string
+- AppOwnerPluginV1Version - ownership data for an [e]Asset
+    - domain - string
     - proofs
         - sha256CertificateFingerprint - bytes32
         - proofOfOwnership = signature(appAddress::sha256CertificateFingerprint) - bytes

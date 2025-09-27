@@ -385,7 +385,7 @@ Open Store предлагает альтернативу, решающую ря�
     
     Основной контракт, в котором реализована система консенсуса, хранящий опубликованные версии [e]Asset, статусы их валидаций, а также данные самих валидаторов.
     
-- **AssetlinkOracleV1**
+- **AssetlinksOracle**
     
     Основной контракт для хранения запросов и результатов [p]Ownership Verification.
     
@@ -393,37 +393,37 @@ Open Store предлагает альтернативу, решающую ря�
     
     Контракты, предназначенные для расширения базовой функциональности других контрактов.
     
-- **DevFactory**
+- **PublisherAccountFactory**
     
     Контракт-фабрика для создания DevAccount.
     
-- **DevAccount** — представление [a]Publisher в системе.
-    - **DevAccount**
+- **PublisherAccount** — представление [a]Publisher в системе.
+    - **PublisherAccount**
         
         Хранит имя пользователя издателя и подключенные плагины.
         
-    - **AppsPluginV1**
+    - **PublisherAccountAppsPluginV1**
         
         Хранит приложения, принадлежащие издателю.
         
-    - **GreenfieldPluginV1**
+    - **PublisherGreenfieldPluginV1**
         
         Контракт для [e]Cross-Chain взаимодействия с [e]Bucket в хранилище [e]Greenfield.
         
-- **App** — представление [e]Asset типа «Application».
-    - **App**
+- **AppAsset** — представление [e]Asset типа «Application».
+    - **AppAsset**
         
         Хранит общую информацию о приложении.
         
-    - **BuildsPluginV1**
+    - **AppBuildsPluginV1**
         
         Хранит версии приложения и ссылки на on-chain файлы.
         
-    - **OwnershipPluginV1**
+    - **AppOwnerPluginV1**
         
         Хранит информацию о владении приложением и доказательства этого владения.
         
-    - **DistributionPluginV1**
+    - **AppDistributionPluginV1**
         
         Хранит Web2/Web3 ссылки для распространения (скачивания) файлов.
         
@@ -431,13 +431,13 @@ Open Store предлагает альтернативу, решающую ря�
 
 ### **3.1.7. Smart Contract Structures**
 
-- BuildInfo - представление [e]Asset Atifact
+- AppBuild - представление [e]Asset Atifact
     - versionCode - int64
     - versionName - string
     - referenceId - bytes
     - protocolId - uint16
     - checksum - bytes
-- OwnershipInfo  -  данные владения [e]Asset
+- AppOwnerPluginV1Version  -  данные владения [e]Asset
     - endpoint - string
     - proofs
         - sha256CertificateFingerprint - bytes32
